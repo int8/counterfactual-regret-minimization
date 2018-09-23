@@ -1,6 +1,6 @@
 ## Implementation of counterfactual regret minimization algorithm for Kuhn poker in python
 
-This is supplementary code for [Counterfactual regret minimization blog post here](https://int8.io/counterfactual-regret-minimization)
+This is supplementary code for [Counterfactual regret minimization blog post here](https://int8.io/counterfactual-regret-minimization-for-poker-ai)
 
 
 to install:
