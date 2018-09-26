@@ -27,8 +27,7 @@ class CounterfactualRegretMinimizationBase:
             self.nash_equilibrium[i] = {a:node.chance_prob() for a in node.actions}
         else:
             sigma_sum = sum(self.cumulative_sigma[i].values())
-            for a in node.actions:
-                self.nash_equilibrium[i] = {a: self.cumulative_sigma[i][a] / sigma_sum for a in node.actions}
+            self.nash_equilibrium[i] = {a: self.cumulative_sigma[i][a] / sigma_sum for a in node.actions}
         # go to subtrees
         for k in node.children:
             self.__compute_ne_rec(node.children[k])
