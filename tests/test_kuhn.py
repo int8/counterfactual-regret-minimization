@@ -26,7 +26,7 @@ def test_player_a_acts_first():
     root = KuhnRootChanceGameState(CARDS_DEALINGS)
     for k in root.children:
         child = root.children[k]
-        assert child.to_move == 1
+        assert child.to_move == A
 
 def test_if_only_root_is_chance():
     logical_expression = lambda node: not node.is_chance()
