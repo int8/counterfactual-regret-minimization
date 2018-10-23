@@ -11,12 +11,12 @@ def test_kuhn_tree_actions_number_equal_to_children():
     root = KuhnRootChanceGameState(CARDS_DEALINGS)
     __recursive_tree_assert(root, lambda node: len(node.children) == len(node.actions))
 
-def test_kuhn_player_to_act_chance_at_root():
+def test_kuhn_to_move_chance_at_root():
     root = KuhnRootChanceGameState(CARDS_DEALINGS)
-    assert root.player_to_act == CHANCE
+    assert root.to_move == CHANCE
 
-def test_kuhn_player_to_act_changes_correctly_for_children():
-    logical_expression = lambda node: all([node.player_to_act == -node.children[k].player_to_act for k in node.children])
+def test_kuhn_to_move_changes_correctly_for_children():
+    logical_expression = lambda node: all([node.to_move == -node.children[k].to_move for k in node.children])
     root = KuhnRootChanceGameState(CARDS_DEALINGS)
     for k in root.children:
         child = root.children[k]
@@ -26,7 +26,7 @@ def test_player_a_acts_first():
     root = KuhnRootChanceGameState(CARDS_DEALINGS)
     for k in root.children:
         child = root.children[k]
-        assert child.player_to_act == PLAYER_A
+        assert child.to_move == 1
 
 def test_if_only_root_is_chance():
     logical_expression = lambda node: not node.is_chance()
@@ -45,26 +45,26 @@ def test_if_possible_to_play_unavailable_action():
     with pytest.raises(KeyError):
         root.play(CHECK).play(CALL)
 
-def test_information_sets():
+def test_inf_sets():
     root = KuhnRootChanceGameState(CARDS_DEALINGS)
-    assert root.information_set() == "."
-    assert root.play(KQ).information_set() == ".K."
-    assert root.play(KQ).play(BET).information_set() == ".Q.BET"
-    assert root.play(KQ).play(BET).play(FOLD).information_set() == ".K.BET.FOLD"
+    assert root.inf_set() == "."
+    assert root.play(KQ).inf_set() == ".K."
+    assert root.play(KQ).play(BET).inf_set() == ".Q.BET"
+    assert root.play(KQ).play(BET).play(FOLD).inf_set() == ".K.BET.FOLD"
 
-    assert root.information_set() == "."
-    assert root.play(QJ).information_set() == ".Q."
-    assert root.play(QJ).play(BET).information_set() == ".J.BET"
-    assert root.play(QJ).play(BET).play(FOLD).information_set() == ".Q.BET.FOLD"
-    assert root.play(QJ).play(BET).play(CALL).information_set() == ".Q.BET.CALL"
+    assert root.inf_set() == "."
+    assert root.play(QJ).inf_set() == ".Q."
+    assert root.play(QJ).play(BET).inf_set() == ".J.BET"
+    assert root.play(QJ).play(BET).play(FOLD).inf_set() == ".Q.BET.FOLD"
+    assert root.play(QJ).play(BET).play(CALL).inf_set() == ".Q.BET.CALL"
 
-    assert root.information_set() == "."
-    assert root.play(JK).information_set() == ".J."
-    assert root.play(JK).play(CHECK).information_set() == ".K.CHECK"
-    assert root.play(JK).play(CHECK).play(CHECK).information_set() == ".J.CHECK.CHECK"
-    assert root.play(JK).play(CHECK).play(BET).information_set() == ".J.CHECK.BET"
-    assert root.play(JK).play(CHECK).play(BET).play(CALL).information_set() == ".K.CHECK.BET.CALL"
-    assert root.play(JK).play(CHECK).play(BET).play(FOLD).information_set() == ".K.CHECK.BET.FOLD"
+    assert root.inf_set() == "."
+    assert root.play(JK).inf_set() == ".J."
+    assert root.play(JK).play(CHECK).inf_set() == ".K.CHECK"
+    assert root.play(JK).play(CHECK).play(CHECK).inf_set() == ".J.CHECK.CHECK"
+    assert root.play(JK).play(CHECK).play(BET).inf_set() == ".J.CHECK.BET"
+    assert root.play(JK).play(CHECK).play(BET).play(CALL).inf_set() == ".K.CHECK.BET.CALL"
+    assert root.play(JK).play(CHECK).play(BET).play(FOLD).inf_set() == ".K.CHECK.BET.FOLD"
 
 def test_termination():
     root = KuhnRootChanceGameState(CARDS_DEALINGS)
